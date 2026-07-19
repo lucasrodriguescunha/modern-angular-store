@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './hello.html',
   styleUrl: './hello.scss',
 })
-export class Hello {}
+export class Hello {
+  protected title = 'Welcome to Modern Angular!';
+}
