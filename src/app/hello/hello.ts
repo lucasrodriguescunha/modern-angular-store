@@ -17,17 +17,17 @@ export class Hello {
 
   protected count = signal(0);
 
-  increateCounter() {
+  protected increateCounter() {
     // count = count + 1;
     this.count.update(value => value + 1);
   }
 
-  decreateCounter() {
+  protected decreateCounter() {
     // count = count -1 1;
     this.count.update(value => value - 1);
   }
 
-  resetCounter() {
+  protected resetCounter() {
     this.count.set(0);
   }
 }
