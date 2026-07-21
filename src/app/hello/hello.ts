@@ -33,12 +33,12 @@ export class Hello {
 
   protected increateCounter() {
     // count = count + 1;
-    this.count.update(value => value + 1);
+    this.count.update((value) => value + 1);
   }
 
   protected decreateCounter() {
     // count = count -1 1;
-    this.count.update(value => value - 1);
+    this.count.update((value) => value - 1);
   }
 
   protected resetCounter() {

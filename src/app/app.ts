@@ -7,7 +7,7 @@ import { ProductsGrid } from './products/products-grid/products-grid';
   selector: 'app-root',
   imports: [RouterOutlet, Header, ProductsGrid],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('modern-angular');
