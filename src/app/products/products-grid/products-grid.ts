@@ -54,9 +54,9 @@ export class ProductsGrid {
     console.log('Added to cart:', product.name);
   }
 
-  protected clearSearch() {
-    this.searchTerm.set('');
-  }
+  // protected clearSearch() {
+  //   this.searchTerm.set('');
+  // }
 
   // protected trimSearch() {
   //   this.searchTerm.update((value) => value.trim());
