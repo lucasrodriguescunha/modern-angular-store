@@ -17,6 +17,5 @@ export class ProductCard {
 
   protected onAddToCart() {
     this.addToCart.emit(this.product());
-
   }
 }
