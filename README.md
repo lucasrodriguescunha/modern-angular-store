@@ -1,5 +1,7 @@
 # Modern Angular: From Zero to Advanced
 
+<img width="1919" height="940" alt="image" src="https://github.com/user-attachments/assets/27d56bfc-ab08-4cf7-96e8-426572ece77d" />
+
 This repository contains the project created in the **Modern Angular Course**.
 
 ## 🧠 What “Modern Angular” Means in This Project
