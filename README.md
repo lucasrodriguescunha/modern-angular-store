@@ -30,6 +30,60 @@ This project follows **modern Angular best practices**, including:
 
 </details>
 
+## 🗺️ Roadmap
+
+Tasks are ordered by effort. Each one is meant to be small enough to land in a single commit.
+
+### Phase 1 — Polish (quick wins)
+
+- [ ] Format prices with `CurrencyPipe` (`{{ product().price | currency }}`) instead of raw numbers
+- [ ] Remove dead code: commented `@for` demo in `products-grid.html`, the commented
+      `clearSearch`/`trimSearch` methods, and the commented test in `app.spec.ts`
+- [ ] Drop the orphan `.demo-item` / `.search-preview` styles from `products-grid.scss`
+- [ ] Remove the unused `title` signal from `App`, or actually render it
+- [ ] Decide on routing: either give `app.routes.ts` real routes or remove `<router-outlet />`
+- [ ] Fix icon accessibility in the header (`aria-hidden="false"` is redundant; add `aria-label`
+      to the buttons themselves)
+- [ ] Show a result count next to the search field ("3 of 5 products")
+- [ ] Add a clear (`✕`) button to the search field
+
+### Phase 2 — Cart that actually works
+
+- [ ] Expose `items`, `totalPrice` and `isEmpty` as computed signals on `CartService`
+- [ ] Add `removeFromCart`, `updateQuantity` and `clearCart`
+- [ ] Build a `CartSheet` / `CartDialog` opened from the header cart button
+- [ ] Show a `MatSnackBar` confirmation when a product is added
+- [ ] Persist the cart to `localStorage` with an `effect()`
+
+### Phase 3 — Data layer
+
+- [ ] Move the hardcoded product list out of `ProductsGrid` into a `ProductService`
+- [ ] Load products through `httpResource()` (or `resource()`) with loading and error states
+- [ ] Add skeleton loaders while products are being fetched
+- [ ] Debounce the search term so filtering does not run on every keystroke
+
+### Phase 4 — Routes and product detail
+
+- [ ] Create `/products` and `/products/:id` routes with lazy `loadComponent`
+- [ ] Build a product detail page reading `:id` via `withComponentInputBinding()`
+- [ ] Add a `/cart` route
+- [ ] Add a 404 / not-found route
+
+### Phase 5 — Product model and filters
+
+- [ ] Extend `Product` with `imageUrl`, `category`, `rating` and `stock`
+- [ ] Render product images in `ProductCard` with `NgOptimizedImage`
+- [ ] Add category filtering and price sorting (cheapest / most expensive)
+- [ ] Disable "Add to Cart" for out-of-stock products
+
+### Phase 6 — Quality
+
+- [ ] Set `ChangeDetectionStrategy.OnPush` on every component
+- [ ] Replace the "should create" placeholder tests with behavior tests (search, cart totals)
+- [ ] Add ESLint (`ng add @angular/eslint`) and wire it into the npm scripts
+- [ ] Add a dark theme toggle (`color-scheme: light dark` + a switch in the header)
+- [ ] Add a GitHub Actions workflow running `format:check`, lint, test and build
+
 ## 🛠️ Prerequisites
 
 Before running this project, make sure you have:
