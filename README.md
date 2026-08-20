@@ -1,133 +1,134 @@
-# Modern Angular: From Zero to Advanced
+# Modern Angular Store: do zero ao avançado
 
 <img width="1919" height="940" alt="image" src="https://github.com/user-attachments/assets/27d56bfc-ab08-4cf7-96e8-426572ece77d" />
 
-This repository contains the project created in the **Modern Angular Course**.
+Este repositório contém o projeto criado no **Curso de Modern Angular**.
 
-## 🧠 What “Modern Angular” Means in This Project
+## 🧠 O que “Modern Angular” significa neste projeto
 
-This project follows **modern Angular best practices**, including:
+Este projeto segue as **boas práticas modernas do Angular**, incluindo:
 
-- ✅ Standalone components (no `NgModule`)
-- ✅ Modern Angular CLI defaults
-- ✅ Signals-first mental model
+- ✅ Standalone components (sem `NgModule`)
+- ✅ Defaults modernos do Angular CLI
+- ✅ Mentalidade signals-first
 - ✅ Built-in control flow (`@if`, `@for`, `@switch`)
-- ✅ Modern testing setup
-- ✅ Clean, explicit project structure
+- ✅ Setup moderno de testes
+- ✅ Estrutura de projeto limpa e explícita
 
-## 🧭 Course Progression
+## 🧭 Progressão do curso
 
 <details>
-<summary>1: Angular Building Blocks</summary>
+<summary>1: Building blocks do Angular</summary>
 
-- 01: [Getting Started](https://youtu.be/cMi3mNWjtyY)
-- 02: [Environment Setup](https://youtu.be/GxTBDSiKNeY)
-- 03: [Creating the First Component](https://youtu.be/oJJNTyFcsN4)
-- 04: [Component Templates and Interactions](https://youtu.be/E9Q1yn3h9d0)
-- 05: [Introducing Signals](https://youtu.be/j1diBkWLk1k)
-- 06: [Computed Signals](https://youtu.be/KTSkMvRT6zs)
+- 01: [Primeiros passos](https://youtu.be/cMi3mNWjtyY)
+- 02: [Configuração do ambiente](https://youtu.be/GxTBDSiKNeY)
+- 03: [Criando o primeiro component](https://youtu.be/oJJNTyFcsN4)
+- 04: [Templates e interações de component](https://youtu.be/E9Q1yn3h9d0)
+- 05: [Introdução aos signals](https://youtu.be/j1diBkWLk1k)
+- 06: [Computed signals](https://youtu.be/KTSkMvRT6zs)
 - 07: [Effects](https://youtu.be/jjGT7EwdH9o)
 
 </details>
 
 ## 🗺️ Roadmap
 
-Tasks are ordered by effort. Each one is meant to be small enough to land in a single commit.
+As tarefas estão ordenadas por esforço. Cada uma deve ser pequena o suficiente para caber em um único commit.
 
-### Phase 1 — Polish (quick wins)
+### Fase 1 — Polimento (ganhos rápidos)
 
-- [ ] Format prices with `CurrencyPipe` (`{{ product().price | currency }}`) instead of raw numbers
-- [ ] Remove dead code: commented `@for` demo in `products-grid.html`, the commented
-      `clearSearch`/`trimSearch` methods, and the commented test in `app.spec.ts`
-- [ ] Drop the orphan `.demo-item` / `.search-preview` styles from `products-grid.scss`
-- [ ] Remove the unused `title` signal from `App`, or actually render it
-- [ ] Decide on routing: either give `app.routes.ts` real routes or remove `<router-outlet />`
-- [ ] Fix icon accessibility in the header (`aria-hidden="false"` is redundant; add `aria-label`
-      to the buttons themselves)
-- [ ] Show a result count next to the search field ("3 of 5 products")
-- [ ] Add a clear (`✕`) button to the search field
+- [x] Formatar preços com `CurrencyPipe` (`{{ product().price | currency }}`) em vez de números crus
+- [x] Remover código morto: o demo comentado de `@for` em `products-grid.html`, os métodos
+      comentados `clearSearch`/`trimSearch` e o teste comentado em `app.spec.ts`
+- [x] Remover os estilos órfãos `.demo-item` / `.search-preview` de `products-grid.scss`
+- [x] Remover o signal `title` não utilizado de `App`, ou de fato renderizá-lo
+- [x] Decidir sobre o routing: ou dar rotas reais a `app.routes.ts` ou remover o `<router-outlet />`
+      (removido por ora; as rotas reais chegam na Fase 4, com `provideRouter` mantido como andaime)
+- [x] Corrigir a acessibilidade dos ícones no header (`aria-hidden="false"` é redundante; adicionar
+      `aria-label` aos próprios buttons)
+- [x] Exibir a contagem de resultados ao lado do campo de busca ("3 de 5 produtos")
+- [x] Adicionar um botão de limpar (`✕`) ao campo de busca
 
-### Phase 2 — Cart that actually works
+### Fase 2 — Um carrinho que realmente funciona
 
-- [ ] Expose `items`, `totalPrice` and `isEmpty` as computed signals on `CartService`
-- [ ] Add `removeFromCart`, `updateQuantity` and `clearCart`
-- [ ] Build a `CartSheet` / `CartDialog` opened from the header cart button
-- [ ] Show a `MatSnackBar` confirmation when a product is added
-- [ ] Persist the cart to `localStorage` with an `effect()`
+- [ ] Expor `items`, `totalPrice` e `isEmpty` como computed signals no `CartService`
+- [ ] Adicionar `removeFromCart`, `updateQuantity` e `clearCart`
+- [ ] Construir um `CartSheet` / `CartDialog` aberto pelo botão de carrinho do header
+- [ ] Exibir uma confirmação com `MatSnackBar` quando um produto for adicionado
+- [ ] Persistir o carrinho no `localStorage` com um `effect()`
 
-### Phase 3 — Data layer
+### Fase 3 — Camada de dados
 
-- [ ] Move the hardcoded product list out of `ProductsGrid` into a `ProductService`
-- [ ] Load products through `httpResource()` (or `resource()`) with loading and error states
-- [ ] Add skeleton loaders while products are being fetched
-- [ ] Debounce the search term so filtering does not run on every keystroke
+- [ ] Mover a lista de produtos hardcoded de `ProductsGrid` para um `ProductService`
+- [ ] Carregar os produtos via `httpResource()` (ou `resource()`) com estados de loading e error
+- [ ] Adicionar skeleton loaders enquanto os produtos são carregados
+- [ ] Aplicar debounce no termo de busca para que a filtragem não rode a cada tecla digitada
 
-### Phase 4 — Routes and product detail
+### Fase 4 — Rotas e detalhe do produto
 
-- [ ] Create `/products` and `/products/:id` routes with lazy `loadComponent`
-- [ ] Build a product detail page reading `:id` via `withComponentInputBinding()`
-- [ ] Add a `/cart` route
-- [ ] Add a 404 / not-found route
+- [ ] Criar as rotas `/products` e `/products/:id` com `loadComponent` lazy
+- [ ] Construir uma página de detalhe do produto lendo o `:id` via `withComponentInputBinding()`
+- [ ] Adicionar uma rota `/cart`
+- [ ] Adicionar uma rota 404 / not-found
 
-### Phase 5 — Product model and filters
+### Fase 5 — Model de produto e filtros
 
-- [ ] Extend `Product` with `imageUrl`, `category`, `rating` and `stock`
-- [ ] Render product images in `ProductCard` with `NgOptimizedImage`
-- [ ] Add category filtering and price sorting (cheapest / most expensive)
-- [ ] Disable "Add to Cart" for out-of-stock products
+- [ ] Estender `Product` com `imageUrl`, `category`, `rating` e `stock`
+- [ ] Renderizar as imagens dos produtos no `ProductCard` com `NgOptimizedImage`
+- [ ] Adicionar filtro por categoria e ordenação por preço (mais barato / mais caro)
+- [ ] Desabilitar o "Add to Cart" para produtos sem estoque
 
-### Phase 6 — Quality
+### Fase 6 — Qualidade
 
-- [ ] Set `ChangeDetectionStrategy.OnPush` on every component
-- [ ] Replace the "should create" placeholder tests with behavior tests (search, cart totals)
-- [ ] Add ESLint (`ng add @angular/eslint`) and wire it into the npm scripts
-- [ ] Add a dark theme toggle (`color-scheme: light dark` + a switch in the header)
-- [ ] Add a GitHub Actions workflow running `format:check`, lint, test and build
+- [ ] Definir `ChangeDetectionStrategy.OnPush` em todos os components
+- [ ] Substituir os testes placeholder "should create" por testes de comportamento (busca, totais do carrinho)
+- [ ] Adicionar ESLint (`ng add @angular/eslint`) e integrá-lo aos scripts do npm
+- [ ] Adicionar um toggle de tema escuro (`color-scheme: light dark` + um switch no header)
+- [ ] Adicionar um workflow do GitHub Actions rodando `format:check`, lint, test e build
 
-## 🛠️ Prerequisites
+## 🛠️ Pré-requisitos
 
-Before running this project, make sure you have:
+Antes de rodar este projeto, certifique-se de ter:
 
 - **Node.js (LTS)**  
-  👉 Recommended installation:
+  👉 Instalação recomendada:
   - macOS / Linux: **nvm**
-  - Windows: **Chocolatey** or **nvm-windows**
+  - Windows: **Chocolatey** ou **nvm-windows**
 
 - **Angular CLI**
   ```bash
   npm install -g @angular/cli
   ```
 
-## Development server
+## Servidor de desenvolvimento
 
-To start a local development server, run:
+Para iniciar um servidor de desenvolvimento local, execute:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Com o servidor rodando, abra o navegador e acesse `http://localhost:4200/`. A aplicação será recarregada automaticamente sempre que você modificar qualquer arquivo de código-fonte.
 
-## Building
+## Build
 
-To build the project run:
+Para fazer o build do projeto, execute:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Isso vai compilar o projeto e armazenar os build artifacts no diretório `dist/`. Por padrão, o build de produção otimiza a aplicação para performance e velocidade.
 
-## Running unit tests
+## Executando testes unitários
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Para executar os testes unitários com o test runner [Vitest](https://vitest.dev/), use o seguinte comando:
 
 ```bash
 ng test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+O Angular CLI não vem com um framework de testes end-to-end por padrão. Você pode escolher o que melhor atende às suas necessidades.
 
-## Additional Resources
+## Recursos adicionais
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para mais informações sobre o uso do Angular CLI, incluindo referências detalhadas de comandos, visite a página [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).

@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "modern-angular": {
+    "modern-angular-store": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "modern-angular:build:production"
+              "buildTarget": "modern-angular-store:build:production"
             },
             "development": {
-              "buildTarget": "modern-angular:build:development"
+              "buildTarget": "modern-angular-store:build:development"
             }
           },
           "defaultConfiguration": "development"

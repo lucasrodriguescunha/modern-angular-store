@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,4 +13,9 @@ import { MatBadgeModule } from '@angular/material/badge';
 })
 export class Header {
   protected readonly cartService = inject(CartService);
+
+  protected readonly cartLabel = computed(() => {
+    const count = this.cartService.totalItems();
+    return `Shopping cart, ${count} ${count === 1 ? 'item' : 'items'}`;
+  });
 }

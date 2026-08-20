@@ -2,6 +2,18 @@
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search Products</mat-label>
     <input matInput [(ngModel)]="searchTerm" placeholder="e.g. headphones" />
+    @if (searchTerm()) {
+      <button
+        matIconButton
+        matSuffix
+        type="button"
+        aria-label="Clear search"
+        (click)="clearSearchInput()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+    <mat-hint>{{ filteredProducts().length }} of {{ products().length }} products</mat-hint>
   </mat-form-field>
 
   <div class="products-grid">
@@ -15,16 +27,3 @@
     }
   </div>
 </div>
-
-<!-- <ul>
-  @for (label of ['Product 1', 'Product 2', 'Product 3', 'Product 4']; track $index; let i = $index; let total = $count; let isFirst = $first; let isLast = $last; let isEven = $even; let isOdd = $odd) {
-    <li
-      class="demo-item"
-      [class.first-item]="isFirst"
-      [class.last-item]="isLast"
-      [class.even-row]="isEven"
-      [class.odd-row]="isOdd">
-      {{ i + 1 }} of {{ total }} - {{ label }}
-    </li>
-  }
-</ul> -->

@@ -5,11 +5,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { CartService } from '../../cart/cart-service';
 
 @Component({
   selector: 'app-products-grid',
-  imports: [ProductCard, MatIconModule, MatInputModule, FormsModule, MatFormFieldModule],
+  imports: [
+    ProductCard,
+    MatIconModule,
+    MatInputModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+  ],
   templateUrl: './products-grid.html',
   styleUrl: './products-grid.scss',
 })
@@ -58,11 +66,7 @@ export class ProductsGrid {
     this.cartService.addToCart(product);
   }
 
-  // protected clearSearch() {
-  //   this.searchTerm.set('');
-  // }
-
-  // protected trimSearch() {
-  //   this.searchTerm.update((value) => value.trim());
-  // }
+  protected clearSearchInput() {
+    this.searchTerm.set('');
+  }
 }
