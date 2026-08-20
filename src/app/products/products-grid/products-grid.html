@@ -2,6 +2,17 @@
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search Products</mat-label>
     <input matInput [(ngModel)]="searchTerm" placeholder="e.g. headphones" />
+    @if (searchTerm()) {
+      <button
+        matIconButton
+        matSuffix
+        type="button"
+        aria-label="Clear search"
+        (click)="clearSearchInput()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
     <mat-hint>{{ filteredProducts().length }} of {{ products().length }} products</mat-hint>
   </mat-form-field>
 
