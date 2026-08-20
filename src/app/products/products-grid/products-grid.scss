@@ -6,6 +6,12 @@
 .search-field {
   display: block;
   width: 100%;
+
+  // O padding de 16px fica no wrapper interno do MatFormField, que é renderizado
+  // fora deste template e por isso não é alcançado sem `::ng-deep`.
+  ::ng-deep .mat-mdc-form-field-hint-wrapper {
+    padding: 0;
+  }
 }
 
 .products-grid {
