@@ -1,7 +1,12 @@
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductCard } from './product-card';
 import { Product } from '../product';
+
+registerLocaleData(localePt);
 
 const laptop: Product = {
   id: 1,
@@ -17,6 +22,10 @@ describe('ProductCard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductCard],
+      providers: [
+        { provide: LOCALE_ID, useValue: 'pt-BR' },
+        { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductCard);
@@ -33,7 +42,7 @@ describe('ProductCard', () => {
     const text = fixture.nativeElement.textContent;
 
     expect(text).toContain('Laptop');
-    expect(text).toContain('1000');
+    expect(text).toMatch(/R\$\s*1\.000,00/);
   });
 
   it('should not show the sale badge without an original price', () => {
@@ -45,7 +54,9 @@ describe('ProductCard', () => {
     await fixture.whenStable();
 
     expect(fixture.nativeElement.querySelector('.sale-badge')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('.original-price').textContent).toContain('1500');
+    expect(fixture.nativeElement.querySelector('.original-price').textContent).toMatch(
+      /R\$\s*1\.500,00/,
+    );
   });
 
   it('should emit the product when the add button is clicked', () => {

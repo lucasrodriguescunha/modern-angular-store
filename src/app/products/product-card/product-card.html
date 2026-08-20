@@ -8,12 +8,12 @@
       <span class="sale-badge">On Sale</span>
 
       <p class="price-row">
-        <span class="current-price">{{ product().price }}</span>
-        <span class="original-price">{{ product().originalPrice }}</span>
+        <span class="current-price">{{ product().price | currency }}</span>
+        <span class="original-price">{{ product().originalPrice | currency }}</span>
       </p>
     } @else {
       <p class="price-row">
-        <span class="current-price">{{ product().price }}</span>
+        <span class="current-price">{{ product().price | currency }}</span>
       </p>
     }
 

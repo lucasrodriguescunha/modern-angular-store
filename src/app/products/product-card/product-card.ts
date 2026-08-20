@@ -2,10 +2,11 @@ import { Product } from './../product';
 import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, CurrencyPipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })
