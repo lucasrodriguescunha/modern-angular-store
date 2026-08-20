@@ -36,16 +36,17 @@ As tarefas estão ordenadas por esforço. Cada uma deve ser pequena o suficiente
 
 ### Fase 1 — Polimento (ganhos rápidos)
 
-- [ ] Formatar preços com `CurrencyPipe` (`{{ product().price | currency }}`) em vez de números crus
-- [ ] Remover código morto: o demo comentado de `@for` em `products-grid.html`, os métodos
+- [x] Formatar preços com `CurrencyPipe` (`{{ product().price | currency }}`) em vez de números crus
+- [x] Remover código morto: o demo comentado de `@for` em `products-grid.html`, os métodos
       comentados `clearSearch`/`trimSearch` e o teste comentado em `app.spec.ts`
-- [ ] Remover os estilos órfãos `.demo-item` / `.search-preview` de `products-grid.scss`
-- [ ] Remover o signal `title` não utilizado de `App`, ou de fato renderizá-lo
-- [ ] Decidir sobre o routing: ou dar rotas reais a `app.routes.ts` ou remover o `<router-outlet />`
-- [ ] Corrigir a acessibilidade dos ícones no header (`aria-hidden="false"` é redundante; adicionar
+- [x] Remover os estilos órfãos `.demo-item` / `.search-preview` de `products-grid.scss`
+- [x] Remover o signal `title` não utilizado de `App`, ou de fato renderizá-lo
+- [x] Decidir sobre o routing: ou dar rotas reais a `app.routes.ts` ou remover o `<router-outlet />`
+      (removido por ora; as rotas reais chegam na Fase 4, com `provideRouter` mantido como andaime)
+- [x] Corrigir a acessibilidade dos ícones no header (`aria-hidden="false"` é redundante; adicionar
       `aria-label` aos próprios buttons)
-- [ ] Exibir a contagem de resultados ao lado do campo de busca ("3 de 5 produtos")
-- [ ] Adicionar um botão de limpar (`✕`) ao campo de busca
+- [x] Exibir a contagem de resultados ao lado do campo de busca ("3 de 5 produtos")
+- [x] Adicionar um botão de limpar (`✕`) ao campo de busca
 
 ### Fase 2 — Um carrinho que realmente funciona
 
