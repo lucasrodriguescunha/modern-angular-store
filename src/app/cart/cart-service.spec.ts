@@ -48,4 +48,37 @@ describe('CartService', () => {
 
     expect(service.totalItems()).toBe(3);
   });
+
+  it('should expose one entry per distinct product', () => {
+    service.addToCart(laptop);
+    service.addToCart(laptop);
+    service.addToCart(speaker);
+
+    expect(service.items()).toEqual([
+      { product: laptop, quantity: 2 },
+      { product: speaker, quantity: 1 },
+    ]);
+  });
+
+  it('should start with a zeroed total price', () => {
+    expect(service.totalPrice()).toBe(0);
+  });
+
+  it('should multiply each price by its quantity', () => {
+    service.addToCart(laptop);
+    service.addToCart(laptop);
+    service.addToCart(speaker);
+
+    expect(service.totalPrice()).toBe(2200);
+  });
+
+  it('should report an empty cart before anything is added', () => {
+    expect(service.isEmpty()).toBe(true);
+  });
+
+  it('should stop reporting an empty cart once a product is added', () => {
+    service.addToCart(laptop);
+
+    expect(service.isEmpty()).toBe(false);
+  });
 });
