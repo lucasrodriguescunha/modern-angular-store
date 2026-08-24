@@ -33,4 +33,32 @@ export class CartService {
       return [...items, { product, quantity: 1 }];
     });
   }
+
+  removeFromCart(productId: number) {
+    this.cartItems.update((items) =>
+      items.flatMap((item) => {
+        if (item.product.id !== productId) {
+          return item;
+        }
+
+        return item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : [];
+      }),
+    );
+  }
+
+  updateQuantity(productId: number, quantity: number) {
+    this.cartItems.update((items) =>
+      items.flatMap((item) => {
+        if (item.product.id !== productId) {
+          return item;
+        }
+
+        return quantity > 0 ? { ...item, quantity } : [];
+      }),
+    );
+  }
+
+  clearCart() {
+    this.cartItems.set([]);
+  }
 }
