@@ -50,8 +50,8 @@ As tarefas estão ordenadas por esforço. Cada uma deve ser pequena o suficiente
 
 ### Fase 2 — Um carrinho que realmente funciona
 
-- [ ] Expor `items`, `totalPrice` e `isEmpty` como computed signals no `CartService`
-- [ ] Adicionar `removeFromCart`, `updateQuantity` e `clearCart`
+- [x] Expor `items`, `totalPrice` e `isEmpty` como computed signals no `CartService`
+- [x] Adicionar `removeFromCart`, `updateQuantity` e `clearCart`
 - [ ] Construir um `CartSheet` / `CartDialog` aberto pelo botão de carrinho do header
 - [ ] Exibir uma confirmação com `MatSnackBar` quando um produto for adicionado
 - [ ] Persistir o carrinho no `localStorage` com um `effect()`
