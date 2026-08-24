@@ -15,4 +15,10 @@
       fontIcon="shopping_cart"
     ></mat-icon>
   </button>
+
+  @if (!cartService.isEmpty()) {
+    <button matIconButton aria-label="Clear cart" (click)="cartService.clearCart()">
+      <mat-icon fontIcon="remove_shopping_cart"></mat-icon>
+    </button>
+  }
 </mat-toolbar>
