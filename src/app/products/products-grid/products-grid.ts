@@ -62,8 +62,24 @@ export class ProductsGrid {
     );
   });
 
+  private readonly quantities = computed(
+    () => new Map(this.cartService.items().map((item) => [item.product.id, item.quantity])),
+  );
+
+  protected quantityOf(productId: number) {
+    return this.quantities().get(productId) ?? 0;
+  }
+
   protected onAddToCart(product: Product) {
     this.cartService.addToCart(product);
+  }
+
+  protected onRemoveFromCart(product: Product) {
+    this.cartService.removeFromCart(product.id);
+  }
+
+  protected onQuantityChange(product: Product, quantity: number) {
+    this.cartService.updateQuantity(product.id, quantity);
   }
 
   protected clearSearchInput() {
