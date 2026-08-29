@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CartService } from '../../cart/cart-service';
 
 @Component({
@@ -25,6 +26,8 @@ export class ProductsGrid {
   protected readonly searchTerm = signal('');
 
   private readonly cartService = inject(CartService);
+
+  private readonly snackBar = inject(MatSnackBar);
 
   protected readonly products = signal<Product[]>([
     {
@@ -64,6 +67,8 @@ export class ProductsGrid {
 
   protected onAddToCart(product: Product) {
     this.cartService.addToCart(product);
+
+    this.snackBar.open(`${product.name} added to cart`, 'Dismiss', { duration: 3000 });
   }
 
   protected clearSearchInput() {
