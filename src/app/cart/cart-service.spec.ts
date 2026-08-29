@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CartService } from './cart-service';
+import { CART_STORAGE_KEY, CartService } from './cart-service';
 import { Product } from '../products/product';
 
 const laptop: Product = {
@@ -183,5 +183,120 @@ describe('CartService', () => {
 
     expect(service.isEmpty()).toBe(true);
     expect(service.items()).toEqual([]);
+  });
+});
+
+describe('CartService persistence', () => {
+  const store = (value: unknown) => localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(value));
+
+  const stored = () => JSON.parse(localStorage.getItem(CART_STORAGE_KEY) ?? 'null');
+
+  const createService = () => TestBed.inject(CartService);
+
+  const flush = () => TestBed.tick();
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+  });
+
+  it('should start empty when nothing was stored', () => {
+    expect(createService().items()).toEqual([]);
+  });
+
+  it('should restore the cart left by a previous session', () => {
+    store([
+      { product: laptop, quantity: 2 },
+      { product: speaker, quantity: 1 },
+    ]);
+
+    const service = createService();
+
+    expect(service.items()).toEqual([
+      { product: laptop, quantity: 2 },
+      { product: speaker, quantity: 1 },
+    ]);
+    expect(service.totalItems()).toBe(3);
+    expect(service.totalPrice()).toBe(2200);
+  });
+
+  it('should persist the cart when a product is added', () => {
+    const service = createService();
+
+    service.addToCart(laptop);
+    service.addToCart(laptop);
+    flush();
+
+    expect(stored()).toEqual([{ product: laptop, quantity: 2 }]);
+  });
+
+  it('should persist the cart when a product is removed', () => {
+    const service = createService();
+
+    service.addToCart(laptop);
+    service.addToCart(speaker);
+    service.removeFromCart(laptop.id);
+    flush();
+
+    expect(stored()).toEqual([{ product: speaker, quantity: 1 }]);
+  });
+
+  it('should persist the cart when a quantity is updated', () => {
+    const service = createService();
+
+    service.addToCart(laptop);
+    service.updateQuantity(laptop.id, 4);
+    flush();
+
+    expect(stored()).toEqual([{ product: laptop, quantity: 4 }]);
+  });
+
+  it('should persist an empty cart once it is cleared', () => {
+    const service = createService();
+
+    service.addToCart(laptop);
+    service.clearCart();
+    flush();
+
+    expect(stored()).toEqual([]);
+  });
+
+  it('should ignore a corrupted stored cart', () => {
+    localStorage.setItem(CART_STORAGE_KEY, 'not json');
+
+    expect(createService().items()).toEqual([]);
+  });
+
+  it('should ignore stored content that is not a list', () => {
+    store({ product: laptop, quantity: 1 });
+
+    expect(createService().items()).toEqual([]);
+  });
+
+  it('should drop stored entries that are not cart items', () => {
+    store([
+      { product: laptop, quantity: 2 },
+      { product: speaker },
+      { quantity: 3 },
+      { product: { id: 3, name: 'Mystery', price: 'free' }, quantity: 1 },
+      { product: speaker, quantity: 0 },
+      null,
+    ]);
+
+    expect(createService().items()).toEqual([{ product: laptop, quantity: 2 }]);
+  });
+
+  it('should keep working when the write is rejected', () => {
+    const setItem = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('QuotaExceededError');
+    });
+
+    const service = createService();
+
+    service.addToCart(laptop);
+
+    expect(flush).not.toThrow();
+    expect(service.items()).toEqual([{ product: laptop, quantity: 1 }]);
+
+    setItem.mockRestore();
   });
 });
