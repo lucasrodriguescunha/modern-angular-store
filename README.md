@@ -54,7 +54,7 @@ As tarefas estão ordenadas por esforço. Cada uma deve ser pequena o suficiente
 - [x] Adicionar `removeFromCart`, `updateQuantity` e `clearCart`
 - [x] Construir um `CartSheet` / `CartDialog` aberto pelo botão de carrinho do header
 - [x] Exibir uma confirmação com `MatSnackBar` quando um produto for adicionado
-- [ ] Persistir o carrinho no `localStorage` com um `effect()`
+- [x] Persistir o carrinho no `localStorage` com um `effect()`
 
 ### Fase 3 — Camada de dados
 
