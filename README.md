@@ -52,7 +52,7 @@ As tarefas estão ordenadas por esforço. Cada uma deve ser pequena o suficiente
 
 - [x] Expor `items`, `totalPrice` e `isEmpty` como computed signals no `CartService`
 - [x] Adicionar `removeFromCart`, `updateQuantity` e `clearCart`
-- [ ] Construir um `CartSheet` / `CartDialog` aberto pelo botão de carrinho do header
+- [x] Construir um `CartSheet` / `CartDialog` aberto pelo botão de carrinho do header
 - [ ] Exibir uma confirmação com `MatSnackBar` quando um produto for adicionado
 - [ ] Persistir o carrinho no `localStorage` com um `effect()`
 
