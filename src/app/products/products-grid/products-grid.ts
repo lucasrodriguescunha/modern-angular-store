@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CartService } from '../../cart/cart-service';
+import { CartService } from '../../services/cart/cart-service';
 
 @Component({
   selector: 'app-products-grid',

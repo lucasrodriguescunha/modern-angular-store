@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Header } from './header';
 
-import { CartService } from '../cart/cart-service';
+import { CartService } from '../services/cart/cart-service';
 import { Product } from '../products/product';
 
 const laptop: Product = {

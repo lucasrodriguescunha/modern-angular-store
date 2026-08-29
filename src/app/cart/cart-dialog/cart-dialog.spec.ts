@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { CartDialog } from './cart-dialog';
-import { CartService } from '../cart-service';
+import { CartService } from '../../services/cart/cart-service';
 import { Product } from '../../products/product';
 
 const laptop: Product = {

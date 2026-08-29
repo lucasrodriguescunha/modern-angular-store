@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ProductsGrid } from './products-grid';
 
-import { CartService } from '../../cart/cart-service';
+import { CartService } from '../../services/cart/cart-service';
 
 describe('ProductsGrid', () => {
   let component: ProductsGrid;
