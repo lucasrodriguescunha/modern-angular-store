@@ -6,9 +6,7 @@
   <span class="branding">Modern Angular Store</span>
   <span class="spacer"></span>
 
-  <button matButton>Products</button>
-
-  <button matIconButton [attr.aria-label]="cartLabel()">
+  <button matIconButton [attr.aria-label]="cartLabel()" (click)="openCart()">
     <mat-icon
       [matBadge]="cartService.totalItems()"
       [matBadgeHidden]="cartService.totalItems() === 0"

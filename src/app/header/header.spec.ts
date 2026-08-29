@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Header } from './header';
 
@@ -18,6 +19,12 @@ describe('Header', () => {
   let cartService: CartService;
 
   const badge = () => fixture.nativeElement.querySelector('.mat-badge');
+  const cartButton = (): HTMLButtonElement =>
+    fixture.nativeElement.querySelector('button[aria-label^="Shopping cart"]');
+
+  afterEach(() => {
+    TestBed.inject(MatDialog).closeAll();
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -45,5 +52,14 @@ describe('Header', () => {
 
     expect(badge().classList).not.toContain('mat-badge-hidden');
     expect(fixture.nativeElement.querySelector('.mat-badge-content').textContent).toBe('2');
+  });
+
+  it('should open the cart dialog from the cart button', async () => {
+    expect(document.querySelector('app-cart-dialog')).toBeNull();
+
+    cartButton().click();
+    await fixture.whenStable();
+
+    expect(document.querySelector('app-cart-dialog')).not.toBeNull();
   });
 });

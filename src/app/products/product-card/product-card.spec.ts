@@ -63,7 +63,7 @@ describe('ProductCard', () => {
     let emitted: Product | undefined;
     component.addToCart.subscribe((product) => (emitted = product));
 
-    fixture.nativeElement.querySelector('mat-card-actions button').click();
+    fixture.nativeElement.querySelector('.add-button').click();
 
     expect(emitted).toEqual(laptop);
   });
