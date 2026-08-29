@@ -6,19 +6,11 @@
   <span class="branding">Modern Angular Store</span>
   <span class="spacer"></span>
 
-  <button matButton>Products</button>
-
-  <button matIconButton [attr.aria-label]="cartLabel()">
+  <button matIconButton [attr.aria-label]="cartLabel()" (click)="openCart()">
     <mat-icon
       [matBadge]="cartService.totalItems()"
       [matBadgeHidden]="cartService.totalItems() === 0"
       fontIcon="shopping_cart"
     ></mat-icon>
   </button>
-
-  @if (!cartService.isEmpty()) {
-    <button matIconButton aria-label="Clear cart" (click)="cartService.clearCart()">
-      <mat-icon fontIcon="remove_shopping_cart"></mat-icon>
-    </button>
-  }
 </mat-toolbar>
