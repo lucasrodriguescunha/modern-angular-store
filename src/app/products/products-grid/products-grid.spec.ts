@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MATERIAL_ANIMATIONS } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ProductsGrid } from './products-grid';
 
@@ -21,6 +23,11 @@ describe('ProductsGrid', () => {
 
   const cardEl = (index: number) => cards()[index] as HTMLElement;
 
+  const snackBars = () => document.querySelectorAll('.mdc-snackbar__label');
+  const snackBarMessage = () => snackBars()[0]?.textContent?.trim();
+  const snackBarAction = () =>
+    document.querySelector('.mat-mdc-snack-bar-action') as HTMLButtonElement | null;
+
   const addButton = (index: number) =>
     cardEl(index).querySelector('.add-button') as HTMLButtonElement;
 
@@ -36,9 +43,14 @@ describe('ProductsGrid', () => {
     await fixture.whenStable();
   };
 
+  afterEach(() => {
+    TestBed.inject(MatSnackBar).dismiss();
+  });
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductsGrid],
+      providers: [{ provide: MATERIAL_ANIMATIONS, useValue: { animationsDisabled: true } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductsGrid);
@@ -123,5 +135,32 @@ describe('ProductsGrid', () => {
     await click(addButton(0));
 
     expect(cartService.items()).toEqual([{ product: component['products']()[0], quantity: 2 }]);
+  });
+
+  it('should show no snack bar until a product is added', () => {
+    expect(snackBarMessage()).toBeUndefined();
+  });
+
+  it('should confirm the addition with a snack bar naming the product', async () => {
+    await click(addButton(1));
+
+    expect(snackBarMessage()).toBe('Smart Fitness Watch added to cart');
+  });
+
+  it('should let the snack bar be dismissed', async () => {
+    await click(addButton(0));
+
+    snackBarAction()!.click();
+    await fixture.whenStable();
+
+    expect(snackBarMessage()).toBeUndefined();
+  });
+
+  it('should replace the message when another product is added', async () => {
+    await click(addButton(0));
+    await click(addButton(2));
+
+    expect(snackBars().length).toBe(1);
+    expect(snackBarMessage()).toBe('Portable Bluetooth Speaker added to cart');
   });
 });
