@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>Your Cart</h2>
+
+<mat-dialog-content>
+  @if (cartService.isEmpty()) {
+    <div class="empty-state">
+      <mat-icon fontIcon="remove_shopping_cart"></mat-icon>
+      <p>Your cart is empty</p>
+    </div>
+  } @else {
+    <mat-list>
+      @for (item of cartService.items(); track item.product.id) {
+        <mat-list-item>
+          <span matListItemTitle>{{ item.product.name }}</span>
+          <span matListItemLine>{{ item.product.price | currency }} each</span>
+
+          <div matListItemMeta class="quantity-stepper">
+            <button
+              matIconButton
+              type="button"
+              [attr.aria-label]="'Decrease quantity of ' + item.product.name"
+              (click)="cartService.removeFromCart(item.product.id)"
+            >
+              <mat-icon fontIcon="remove"></mat-icon>
+            </button>
+
+            <span class="quantity">
+              {{ item.quantity }}
+              <span class="visually-hidden">in cart</span>
+            </span>
+
+            <button
+              matIconButton
+              type="button"
+              [attr.aria-label]="'Increase quantity of ' + item.product.name"
+              (click)="cartService.addToCart(item.product)"
+            >
+              <mat-icon fontIcon="add"></mat-icon>
+            </button>
+
+            <button
+              matIconButton
+              type="button"
+              [attr.aria-label]="'Remove ' + item.product.name + ' from the cart'"
+              (click)="cartService.updateQuantity(item.product.id, 0)"
+            >
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+
+    <mat-divider />
+
+    <p class="total-row">
+      <span>Total</span>
+      <strong>{{ cartService.totalPrice() | currency }}</strong>
+    </p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  @if (!cartService.isEmpty()) {
+    <button matButton type="button" (click)="cartService.clearCart()">Clear Cart</button>
+  }
+
+  <span class="spacer"></span>
+
+  <button matButton="filled" type="button" mat-dialog-close>Continue Shopping</button>
+</mat-dialog-actions>
