@@ -21,40 +21,6 @@
   </mat-card-content>
 
   <mat-card-actions>
-    @if (quantity() === 0) {
-      <button matButton class="add-button" (click)="onAddToCart()">{{ addButtonLabel() }}</button>
-    } @else {
-      <div class="quantity-stepper">
-        <button
-          matIconButton
-          type="button"
-          [attr.aria-label]="'Decrease quantity of ' + product().name"
-          (click)="onRemoveFromCart()"
-        >
-          <mat-icon fontIcon="remove"></mat-icon>
-        </button>
-
-        <label class="quantity-field">
-          <span class="visually-hidden">Quantity for {{ product().name }}</span>
-          <input
-            type="number"
-            min="0"
-            step="1"
-            inputmode="numeric"
-            [value]="quantity()"
-            (input)="onQuantityInput($event)"
-          />
-        </label>
-
-        <button
-          matIconButton
-          type="button"
-          [attr.aria-label]="'Increase quantity of ' + product().name"
-          (click)="onAddToCart()"
-        >
-          <mat-icon fontIcon="add"></mat-icon>
-        </button>
-      </div>
-    }
+    <button matButton class="add-button" (click)="onAddToCart()">{{ addButtonLabel() }}</button>
   </mat-card-actions>
 </mat-card>
