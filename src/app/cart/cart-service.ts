@@ -1,12 +1,14 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { Product } from '../products/product';
 import { CartItem } from './cart-item';
+
+export const CART_STORAGE_KEY = 'modern-angular-store.cart';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private readonly cartItems = signal<CartItem[]>([]);
+  private readonly cartItems = signal<CartItem[]>(readStoredCart());
 
   readonly items = this.cartItems.asReadonly();
 
@@ -19,6 +21,10 @@ export class CartService {
   );
 
   readonly isEmpty = computed(() => this.cartItems().length === 0);
+
+  constructor() {
+    effect(() => writeStoredCart(this.cartItems()));
+  }
 
   addToCart(product: Product) {
     this.cartItems.update((items) => {
@@ -61,4 +67,35 @@ export class CartService {
   clearCart() {
     this.cartItems.set([]);
   }
+}
+
+function readStoredCart(): CartItem[] {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    const parsed: unknown = stored ? JSON.parse(stored) : null;
+
+    return Array.isArray(parsed) ? parsed.filter(isCartItem) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeStoredCart(items: CartItem[]) {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    // Storage may be unavailable or full; the cart still works for this session.
+  }
+}
+
+function isCartItem(value: unknown): value is CartItem {
+  const item = value as CartItem | null;
+
+  return (
+    typeof item?.quantity === 'number' &&
+    item.quantity > 0 &&
+    typeof item.product?.id === 'number' &&
+    typeof item.product.name === 'string' &&
+    typeof item.product.price === 'number'
+  );
 }
