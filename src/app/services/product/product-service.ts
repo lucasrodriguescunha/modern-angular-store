@@ -1,34 +1,26 @@
-import { Injectable, signal } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { computed, Injectable } from '@angular/core';
 import { Product } from '../../products/product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly productList = signal<Product[]>([
-    {
-      id: 1,
-      name: 'Premium Wireless Headphones',
-      description:
-        'High-quality wireless headphones with noise cancellation and premium sound quality.',
-      price: 199.99,
-      originalPrice: 249.99,
-    },
-    {
-      id: 2,
-      name: 'Smart Fitness Watch',
-      description:
-        'Track your fitness goals with this advanced smartwatch featuring heart rate monitoring.',
-      price: 299.99,
-    },
-    {
-      id: 3,
-      name: 'Portable Bluetooth Speaker',
-      description: 'Compact speaker with powerful bass and 12-hour battery life.',
-      price: 79.99,
-      originalPrice: 99.99,
-    },
-  ]);
+  private readonly productsResource = httpResource<Product[]>(() => '/products.json', {
+    defaultValue: [],
+  });
 
-  readonly products = this.productList.asReadonly();
+  // `value()` lança quando o resource está em erro — nem o `defaultValue` cobre esse
+  // caso. O guard mantém o signal seguro de ler em qualquer ponto do template.
+  readonly products = computed(() =>
+    this.productsResource.hasValue() ? this.productsResource.value() : [],
+  );
+
+  readonly isLoading = this.productsResource.isLoading;
+
+  readonly error = this.productsResource.error;
+
+  reload() {
+    this.productsResource.reload();
+  }
 }
