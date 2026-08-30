@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CartService } from '../../services/cart/cart-service';
 import { ProductService } from '../../services/product/product-service';
 
@@ -19,6 +20,7 @@ import { ProductService } from '../../services/product/product-service';
     FormsModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './products-grid.html',
   styleUrl: './products-grid.scss',
@@ -33,6 +35,10 @@ export class ProductsGrid {
   private readonly snackBar = inject(MatSnackBar);
 
   protected readonly products = this.productService.products;
+
+  protected readonly isLoading = this.productService.isLoading;
+
+  protected readonly error = this.productService.error;
 
   protected readonly filteredProducts = computed(() => {
     const term = this.searchTerm().toLocaleLowerCase().trim();
@@ -53,5 +59,9 @@ export class ProductsGrid {
 
   protected clearSearchInput() {
     this.searchTerm.set('');
+  }
+
+  protected reloadProducts() {
+    this.productService.reload();
   }
 }
