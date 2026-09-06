@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MATERIAL_ANIMATIONS } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { ProductsGrid } from './products-grid';
+import { ProductsGrid, SEARCH_DEBOUNCE_MS } from './products-grid';
 
 import { Product } from '../product';
 import { CartService } from '../../services/cart/cart-service';
@@ -73,11 +73,21 @@ describe('ProductsGrid', () => {
     await fixture.whenStable();
   };
 
-  const search = async (term: string) => {
+  const type = async (term: string) => {
     const input = searchInput();
     input.value = term;
     input.dispatchEvent(new Event('input'));
     await fixture.whenStable();
+  };
+
+  const settleDebounce = async () => {
+    await new Promise((resolve) => setTimeout(resolve, SEARCH_DEBOUNCE_MS + 50));
+    await fixture.whenStable();
+  };
+
+  const search = async (term: string) => {
+    await type(term);
+    await settleDebounce();
   };
 
   // Renderiza o component e devolve a requisição que o resource acabou de disparar,
@@ -284,6 +294,35 @@ describe('ProductsGrid', () => {
       expect(searchInput().value).toBe('');
       expect(clearButton()).toBeNull();
       expect(cards().length).toBe(3);
+    });
+
+    it('should hold the previous results until the typing pauses', async () => {
+      await type('speaker');
+
+      expect(cards().length).toBe(3);
+      expect(hint()).toBe('3 of 3 products');
+
+      await settleDebounce();
+
+      expect(cardNames()).toEqual(['Portable Bluetooth Speaker']);
+    });
+
+    it('should settle on the last term of a burst of keystrokes', async () => {
+      await type('s');
+      await type('sp');
+      await type('spe');
+
+      expect(cards().length).toBe(3);
+
+      await settleDebounce();
+
+      expect(cardNames()).toEqual(['Portable Bluetooth Speaker']);
+    });
+
+    it('should show the clear button as soon as a key is pressed', async () => {
+      await type('speaker');
+
+      expect(clearButton()).not.toBeNull();
     });
 
     it('should add the product to the cart when a card asks for it', async () => {
