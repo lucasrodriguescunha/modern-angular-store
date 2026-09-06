@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ProductCard } from '../product-card/product-card';
 import { ProductCardSkeleton } from '../product-card-skeleton/product-card-skeleton';
 import { Product } from '../product';
@@ -23,6 +23,7 @@ import { ProductService } from '../../services/product/product-service';
     MatButtonModule,
   ],
   templateUrl: './products-grid.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './products-grid.scss',
 })
 export class ProductsGrid {

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-product-card-skeleton',
   imports: [MatCardModule],
   templateUrl: './product-card-skeleton.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './product-card-skeleton.scss',
 })
 export class ProductCardSkeleton {}

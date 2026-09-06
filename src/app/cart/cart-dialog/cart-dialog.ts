@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { CartService } from '../../services/cart/cart-service';
     CurrencyPipe,
   ],
   templateUrl: './cart-dialog.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cart-dialog.scss',
 })
 export class CartDialog {
