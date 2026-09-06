@@ -60,7 +60,7 @@ As tarefas estão ordenadas por esforço. Cada uma deve ser pequena o suficiente
 
 - [x] Mover a lista de produtos hardcoded de `ProductsGrid` para um `ProductService`
 - [x] Carregar os produtos via `httpResource()` (ou `resource()`) com estados de loading e error
-- [ ] Adicionar skeleton loaders enquanto os produtos são carregados
+- [x] Adicionar skeleton loaders enquanto os produtos são carregados
 - [ ] Aplicar debounce no termo de busca para que a filtragem não rode a cada tecla digitada
 
 ### Fase 4 — Rotas e detalhe do produto
