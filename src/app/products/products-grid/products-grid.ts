@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  debounced,
+  inject,
+  signal,
+} from '@angular/core';
 import { ProductCard } from '../product-card/product-card';
 import { ProductCardSkeleton } from '../product-card-skeleton/product-card-skeleton';
 import { Product } from '../product';
@@ -10,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CartService } from '../../services/cart/cart-service';
 import { ProductService } from '../../services/product/product-service';
+
+export const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
   selector: 'app-products-grid',
@@ -31,6 +40,12 @@ export class ProductsGrid {
 
   protected readonly searchTerm = signal('');
 
+  private readonly debouncedSearchTerm = debounced(this.searchTerm, (term) =>
+    term.trim()
+      ? new Promise<void>((resolve) => setTimeout(resolve, SEARCH_DEBOUNCE_MS))
+      : undefined,
+  );
+
   private readonly cartService = inject(CartService);
 
   private readonly productService = inject(ProductService);
@@ -44,7 +59,7 @@ export class ProductsGrid {
   protected readonly error = this.productService.error;
 
   protected readonly filteredProducts = computed(() => {
-    const term = this.searchTerm().toLocaleLowerCase().trim();
+    const term = this.debouncedSearchTerm.value().toLocaleLowerCase().trim();
     if (!term) return this.products();
 
     return this.products().filter(
