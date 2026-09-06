@@ -51,9 +51,12 @@ describe('ProductsGrid', () => {
     fixture.nativeElement.querySelector('button[aria-label="Clear search"]') as HTMLButtonElement;
 
   const statusState = () => fixture.nativeElement.querySelector('.status-state') as HTMLElement;
-  const spinner = () => fixture.nativeElement.querySelector('mat-spinner');
   const retryButton = () =>
     fixture.nativeElement.querySelector('.status-state button') as HTMLButtonElement;
+
+  const skeletons = () => fixture.nativeElement.querySelectorAll('app-product-card-skeleton');
+  const skeletonGrid = () => (skeletons()[0] as HTMLElement | undefined)?.parentElement;
+  const liveRegion = () => fixture.nativeElement.querySelector('[role="status"]') as HTMLElement;
 
   const cardEl = (index: number) => cards()[index] as HTMLElement;
 
@@ -119,12 +122,36 @@ describe('ProductsGrid', () => {
   });
 
   describe('while the catalog is loading', () => {
-    it('should show the spinner instead of the grid', () => {
+    it('should show skeleton cards instead of the grid', () => {
       const request = render();
 
-      expect(spinner()).not.toBeNull();
-      expect(statusState().textContent).toContain('Loading products');
+      expect(skeletons().length).toBe(3);
       expect(cards().length).toBe(0);
+
+      request.flush(catalog);
+    });
+
+    it('should lay the skeletons out with the product grid', () => {
+      const request = render();
+
+      expect(skeletonGrid()?.classList.contains('products-grid')).toBe(true);
+
+      request.flush(catalog);
+    });
+
+    it('should announce the loading state to screen readers', () => {
+      const request = render();
+
+      expect(liveRegion().textContent?.trim()).toBe('Loading products');
+
+      request.flush(catalog);
+    });
+
+    it('should keep the skeletons out of the accessibility tree', () => {
+      const request = render();
+
+      expect(skeletonGrid()?.getAttribute('aria-hidden')).toBe('true');
+      expect(skeletonGrid()?.querySelector('button')).toBeNull();
 
       request.flush(catalog);
     });
@@ -156,11 +183,25 @@ describe('ProductsGrid', () => {
     it('should explain the failure instead of rendering the grid', () => {
       expect(statusState().textContent).toContain("We couldn't load the products.");
       expect(cards().length).toBe(0);
-      expect(spinner()).toBeNull();
+      expect(skeletons().length).toBe(0);
+    });
+
+    it('should stop announcing the loading state', () => {
+      expect(liveRegion().textContent?.trim()).toBe('');
     });
 
     it('should offer a retry button', () => {
       expect(retryButton().textContent?.trim()).toBe('Try again');
+    });
+
+    it('should show the skeletons again while retrying', () => {
+      retryButton().click();
+      fixture.detectChanges();
+
+      expect(skeletons().length).toBe(3);
+      expect(statusState()).toBeNull();
+
+      httpTesting.expectOne('/products.json').flush(catalog);
     });
 
     it('should render the catalog after a successful retry', async () => {
@@ -185,6 +226,14 @@ describe('ProductsGrid', () => {
     it('should render every product when there is no search term', () => {
       expect(cards().length).toBe(3);
       expect(hint()).toBe('3 of 3 products');
+    });
+
+    it('should drop the skeletons once the catalog arrives', () => {
+      expect(skeletons().length).toBe(0);
+    });
+
+    it('should stop announcing the loading state', () => {
+      expect(liveRegion().textContent?.trim()).toBe('');
     });
 
     it('should filter by product name', async () => {
