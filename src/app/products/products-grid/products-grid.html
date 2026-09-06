@@ -23,10 +23,17 @@
     }
   </mat-form-field>
 
+  <p class="cdk-visually-hidden" role="status">
+    @if (isLoading()) {
+      Loading products
+    }
+  </p>
+
   @if (isLoading()) {
-    <div class="status-state">
-      <mat-spinner diameter="48" />
-      <p>Loading products…</p>
+    <div class="products-grid" aria-hidden="true">
+      @for (skeleton of skeletons; track skeleton) {
+        <app-product-card-skeleton />
+      }
     </div>
   } @else if (error()) {
     <div class="status-state">
