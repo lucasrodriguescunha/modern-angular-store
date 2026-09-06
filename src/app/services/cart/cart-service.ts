@@ -1,6 +1,6 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
-import { Product } from '../products/product';
-import { CartItem } from './cart-item';
+import { Product } from '../../products/product';
+import { CartItem } from '../../cart/cart-item';
 
 export const CART_STORAGE_KEY = 'modern-angular-store.cart';
 

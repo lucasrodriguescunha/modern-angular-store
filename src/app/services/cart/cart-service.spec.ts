@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CART_STORAGE_KEY, CartService } from './cart-service';
-import { Product } from '../products/product';
+import { Product } from '../../products/product';
 
 const laptop: Product = {
   id: 1,

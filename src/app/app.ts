@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from './header/header';
 import { ProductsGrid } from './products/products-grid/products-grid';
 
@@ -6,6 +6,7 @@ import { ProductsGrid } from './products/products-grid/products-grid';
   selector: 'app-root',
   imports: [Header, ProductsGrid],
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.scss',
 })
 export class App {}

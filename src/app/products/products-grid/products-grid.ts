@@ -1,5 +1,13 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  debounced,
+  inject,
+  signal,
+} from '@angular/core';
 import { ProductCard } from '../product-card/product-card';
+import { ProductCardSkeleton } from '../product-card-skeleton/product-card-skeleton';
 import { Product } from '../product';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -7,12 +15,16 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CartService } from '../../cart/cart-service';
+import { CartService } from '../../services/cart/cart-service';
+import { ProductService } from '../../services/product/product-service';
+
+export const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
   selector: 'app-products-grid',
   imports: [
     ProductCard,
+    ProductCardSkeleton,
     MatIconModule,
     MatInputModule,
     FormsModule,
@@ -20,42 +32,34 @@ import { CartService } from '../../cart/cart-service';
     MatButtonModule,
   ],
   templateUrl: './products-grid.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './products-grid.scss',
 })
 export class ProductsGrid {
+  protected readonly skeletons = Array.from({ length: 3 }, (_, index) => index);
+
   protected readonly searchTerm = signal('');
+
+  private readonly debouncedSearchTerm = debounced(this.searchTerm, (term) =>
+    term.trim()
+      ? new Promise<void>((resolve) => setTimeout(resolve, SEARCH_DEBOUNCE_MS))
+      : undefined,
+  );
 
   private readonly cartService = inject(CartService);
 
+  private readonly productService = inject(ProductService);
+
   private readonly snackBar = inject(MatSnackBar);
 
-  protected readonly products = signal<Product[]>([
-    {
-      id: 1,
-      name: 'Premium Wireless Headphones',
-      description:
-        'High-quality wireless headphones with noise cancellation and premium sound quality.',
-      price: 199.99,
-      originalPrice: 249.99,
-    },
-    {
-      id: 2,
-      name: 'Smart Fitness Watch',
-      description:
-        'Track your fitness goals with this advanced smartwatch featuring heart rate monitoring.',
-      price: 299.99,
-    },
-    {
-      id: 3,
-      name: 'Portable Bluetooth Speaker',
-      description: 'Compact speaker with powerful bass and 12-hour battery life.',
-      price: 79.99,
-      originalPrice: 99.99,
-    },
-  ]);
+  protected readonly products = this.productService.products;
+
+  protected readonly isLoading = this.productService.isLoading;
+
+  protected readonly error = this.productService.error;
 
   protected readonly filteredProducts = computed(() => {
-    const term = this.searchTerm().toLocaleLowerCase().trim();
+    const term = this.debouncedSearchTerm.value().toLocaleLowerCase().trim();
     if (!term) return this.products();
 
     return this.products().filter(
@@ -73,5 +77,9 @@ export class ProductsGrid {
 
   protected clearSearchInput() {
     this.searchTerm.set('');
+  }
+
+  protected reloadProducts() {
+    this.productService.reload();
   }
 }
